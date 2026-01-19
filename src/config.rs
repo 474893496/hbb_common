@@ -1835,7 +1835,7 @@ impl LocalConfig {
     //if !config.options.contains_key("theme") {
             //config.options.insert("theme".to_string(), "dark".to_string());
             //store = true;
-    }
+    //}
 
     if store {
             config.store();
